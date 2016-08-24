@@ -1,7 +1,21 @@
 # DeTeXify
 DeTeXify removes LaTeX and TeX tags from an input string and returns a computer-evaluatable string.
 
-## Examples:
+## Usage
+### Command Line
+Execute detex.pl in the detexify folder, then input your LaTeX or TeX string on the command line. Press enter and watch for your detexified string.
+
+```
+> ./detex.pl
+\frac{1}{2}
+1/2
+> 
+```
+
+### Piping from Other Programs
+You can open detex.pl as a pipe from another program, regardless of what language the calling program is written in. You just need to write your LaTeX or TeX string to detex.pl once a pipe is open, and then read the result string from detex.pl before closing the pipe.
+
+## Example Conversions:
 - \\frac{1}{2} => 1/2
 - \\sqrt{2} => 2^(1/2)
 - \\frac{x+y}{3} => (x+y)/3
