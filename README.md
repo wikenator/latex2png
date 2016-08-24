@@ -6,7 +6,7 @@ DeTeXify removes LaTeX and TeX tags from an input string and return a computer-e
 - \\sqrt{2} => 2^(1/2)
 - \\frac{x+y}{3} => (x+y)/3
 
-## DeTeXify currently handles the following LaTeX and TeX tags with infinite recursion (conversion):
+### DeTeXify currently handles the following LaTeX and TeX tags with infinite recursion (conversion):
 - \\frac{a}{b} => a/b
 - \\sqrt{a} => a^(1/2)
 - \\sqrt[a]{b} => b^(1/a)
@@ -23,7 +23,7 @@ DeTeXify removes LaTeX and TeX tags from an input string and return a computer-e
 - \\[, \\] => $$
 - \\{, \\} => (, )
 
-## DeTeXify currently handles the following LaTeX and TeX tags (removal):
+### DeTeXify currently handles the following LaTeX and TeX tags (removal):
 - \\break
 - \\displaystyle
 - \\left, \\right
