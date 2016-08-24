@@ -1,4 +1,5 @@
 # DeTeXify
+<<<<<<< HEAD
 DeTeXify removes LaTeX and TeX tags from an input string and returns a computer-evaluatable string.
 
 ## Usage
