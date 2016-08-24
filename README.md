@@ -1,10 +1,10 @@
 # DeTeXify
 DeTeXify removes LaTeX and TeX tags from an input string and return a computer-evaluatable string.
 
-Examples:
-\\frac{1}{2}: 1/2
-\\sqrt{2}: 2^(1/2)
-\\frac{x+y}{3}: (x+y)/3
+Examples:<br/>
+\\frac{1}{2}: 1/2<br/>
+\\sqrt{2}: 2^(1/2)<br/>
+\\frac{x+y}{3}: (x+y)/3<br/>
 
 DeTeXify currently handles the following LaTeX and TeX tags with infinite recursion (conversion):
 \\frac{a}{b} -> a/b
