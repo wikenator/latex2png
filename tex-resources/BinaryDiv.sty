@@ -1,0 +1,11 @@
+% BinaryDiv style sheet for formatting binary division problems
+%
+\ProvidesPackage{BinaryDiv}
+\newdimen\digitwidth
+\settowidth\digitwidth{0}
+\def~{\hspace{\digitwidth}}
+\def\divrule#1#2{%
+\noalign{\moveright#1\digitwidth%
+\vbox{\hrule width#2\digitwidth}}}
+%
+%% end BinaryDiv styles
