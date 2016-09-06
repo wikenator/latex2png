@@ -1,17 +1,13 @@
 <?php
 class Asymptote {
-	private $ASY_PATH = '/usr/bin/asy';
-	private $TMP_DIR = '/home/hemath/secure_html/adm/tmp';
-
 	/*
 	* Purpose: 
 	*
 	* @param string text: original string containing asymptote code
-	* @param string path: destination of rendered asymptote image
 	*
 	* @return string: text containing asymptote code replaced by image tags
 	*/
-	public function transform($text, $path) {
+	public function transform($text) {
 		$hash = '';
 
 		// remove newlines to prevent input cutoff
@@ -56,7 +52,7 @@ class Asymptote {
 	*/
 	private function asymp($ahunk, $hash) {
 		$current_dir = getcwd();
-		chdir($this->TMP_DIR);
+		chdir(Config::TMP_DIR);
 		
 		// create temporary asymptote file
 		$fp = fopen("$hash.asy", "w+");
@@ -64,7 +60,7 @@ class Asymptote {
 		fclose($fp);
 
 		// convert from asymptote -> eps 
-		$command = $this->ASY_PATH . " -f eps $hash.asy";
+		$command = Config::ASY_PATH . " -f eps $hash.asy";
 		exec($command);
 
 		unlink ("$hash.asy");

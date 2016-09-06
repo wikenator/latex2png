@@ -1,10 +1,9 @@
 <?php
 class Latex2PNG {
 	private $latex = '';
-	private $static_images = false;
+	private $asy_images = '';
+	private $width = '';
 	private $syntax_err = array();
-	private $CHKTEX_PATH = '/usr/bin/chktex';
-	private $CACHE_DIR = './cache';
 
 	/*
 	* Purpose: if variable latex is set, initialize variables
@@ -13,11 +12,20 @@ class Latex2PNG {
 	*
 	* @return Latex2PNG object
 	*/
-	public function __construct($latex = '', $static_images = false) {
-		if (!empty($latex)) {
-			$this->latex = $latex;
-			$this->static_images = $static_images;
-			$this->processImage();
+	public function __construct($latex_file = '', $img_width = 300, $asy_images = false) {
+		if (!empty($latex_file)) {
+			$this->latex = file_get_contents($latex_file);
+			$this->width = $img_width;
+			$this->asy_images = $asy_images;
+
+			if ($this->latex)
+				$this->processImage();
+
+			else
+				echo "Unable to read $latex_file.\n";
+
+		} else {
+			echo "No file specified.\n";
 		}// end if
 	}// end constructor
 
@@ -39,7 +47,7 @@ class Latex2PNG {
 	* @return null
 	*/
 	public function processImage() {
-		if (file_exists($this->CHKTEX_PATH))
+		if (file_exists(Config::CHKTEX_PATH))
 			$this->cleanLatex();
 
 		// transform latex code into image
@@ -77,7 +85,7 @@ class Latex2PNG {
 	*/
 	public function syntaxCheck() {
 		# use "-n [number]" switch to ignore chktex errors
-		$command = $this->CHKTEX_PATH . " -qv0 temp.tex";
+		$command = Config::CHKTEX_PATH . " -qv0 temp.tex";
 
 		foreach (array($this->q, $this->s, $this->c) as $latex) {
 			// 'mask' asymptote code to avoid false positives
@@ -85,14 +93,16 @@ class Latex2PNG {
 			$this->latex = str_replace("\r", '', $this->latex);
 			$this->latex = str_replace("\n", '', $this->latex);
 
-			// find all asymptote code sections
-			preg_match_all("/(\\\\begin\\{asy\\}.*?\\\\end\\{asy\\})/", $this->latex, $matches);
+			if ($this->asy_images) {
+				// find all asymptote code sections
+				preg_match_all("/(\\\\begin\\{asy\\}.*?\\\\end\\{asy\\})/", $this->latex, $matches);
 
-			// replace asymptote code with nothing
-			for ($i = 0; $i < count($matches[0]); $i++) {
-				$position = strpos($this->latex, $matches[0][$i]);
-				$this->latex = substr_replace($this->latex, '', $position, strlen($matches[0][$i]));
-			}// end for
+				// replace asymptote code with nothing
+				for ($i = 0; $i < count($matches[0]); $i++) {
+					$position = strpos($this->latex, $matches[0][$i]);
+					$this->latex = substr_replace($this->latex, '', $position, strlen($matches[0][$i]));
+				}// end for
+			}// end if
 
 			// create temporary LaTeX file
 			$fp = fopen('temp.tex', 'w+');
@@ -131,21 +141,11 @@ class Latex2PNG {
 	* @return array: problem object
 	*/
 	private function processLatex() {
-		if ($this->static_images) {
-			require_once('Render2.php');
-			$render = new Render2();
-
-		} else {
-			require_once('Render.php');
-			$render = new Render();
-		}// end if
-
-		require_once('Asymptote.php');
-
-		$path = $this->CACHE_DIR;
+		require_once('Render.php');
+		$render = new Render($this->asy_images);
 
 		// render TeX to PNG
-		$this->latex = $render->transform($this->latex, $path);
+		$this->latex = $render->transform($this->latex, $this->width);
 
 		unset($render);
 
