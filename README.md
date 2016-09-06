@@ -21,4 +21,19 @@ php latex2png.php [-h | --help] -i filename.tex [-a | -g] [-w width]
 |:---:|:---:|
 |![DVI-PNG](dvipng_example.png "DVI-PNG") | ![DVI-PS-PNG](dvipng_asy_example.png "DVI-PS-PNG") |
 
-   It is recommended to only use the `-a` if Asymptote code is not used.
+   It is recommended to only use the `-a` option if Asymptote code is not used.
+
+### Asymptote Image Sample
+Code:
+```
+Here is a rectangle:
+$$\begin{asy}
+        size(4cm);
+        draw((0,0)--(20,0)--(20,8)--(0,8)--cycle);
+        label("$80$", (20,0)--(20,8), E);
+        label("$200$", (0,8)--(20,8), N);
+\end{asy}$$
+```
+Resulting Image:
+
+![Asymptote Image](dvips_asy_example.png "Asymptote Image")
