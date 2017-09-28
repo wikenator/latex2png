@@ -20,7 +20,7 @@ php latex2png.php [-h | --help] -i filename.tex [-a | -g] [-w width]
 * To include Asymptote images, place your Asymptote code between `\begin{asy}` and `\end{asy}` tags.
 * Using the `-a` option will render the image slightly differently because a different conversion method is used (LATEX->DVI->PS->PNG) instead of the more straightforward conversion (LATEX->DVI->PNG). This has resulted in a slightly blurry image due to the necessity of ImageMagick required to convert the PS file to a PNG image. For example:
 
-   | PNG | PS->PNG |
+| PNG | PS->PNG |
 |:---:|:---:|
 |![DVI-PNG](dvipng_example.png "DVI-PNG") | ![DVI-PS-PNG](dvipng_asy_example.png "DVI-PS-PNG") |
 
